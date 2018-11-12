@@ -1,4 +1,4 @@
-# Spring Boot App
+# To-Do App Server
 
 
 # Requirements
