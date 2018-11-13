@@ -1,0 +1,6 @@
+version: '2'
+services:
+  todoappserver:
+    image: 'arif/appserver:latest'
+    ports:
+      - '5000:5000'

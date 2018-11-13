@@ -2,11 +2,9 @@ package com.arif.backenddemo.controller;
 
 
 import com.arif.backenddemo.domain.User;
-import com.arif.backenddemo.model.ApiResponse;
 import com.arif.backenddemo.model.AuthenticationRequest;
 import com.arif.backenddemo.model.AuthenticationResponse;
 import com.arif.backenddemo.model.RegisterRequest;
-import com.arif.backenddemo.repository.UserRepository;
 import com.arif.backenddemo.security.TokenUtils;
 import com.arif.backenddemo.service.UserService;
 import com.arif.backenddemo.service.impl.UserDetailsServiceImpl;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/auth")

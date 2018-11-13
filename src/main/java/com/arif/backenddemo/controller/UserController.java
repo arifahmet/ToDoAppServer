@@ -27,7 +27,7 @@ public class UserController{
         if(user == null){
             return new ResponseEntity(new ApiResponse("Username is available", true), HttpStatus.OK);
         }
-        return new ResponseEntity(new ApiResponse("Username is not available", false), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ApiResponse("Username is not available", false), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
