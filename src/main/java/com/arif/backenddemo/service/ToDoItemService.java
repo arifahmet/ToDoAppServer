@@ -8,7 +8,7 @@ import com.arif.backenddemo.model.ToDoItemResponse;
 import java.util.List;
 
 public interface ToDoItemService {
-    List<ToDoItemResponse> getAllToDoItemsByToList(Long toDoListId);
+    List<ToDoItemResponse> getAllToDoItemsByToDoList(Long toDoListId);
     ToDoItem createToDoItem(ToDoItem toDoItem);
     ApiResponse deleteTodoItem(Long id);
     ApiResponse changeStatus(Long id);

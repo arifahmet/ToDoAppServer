@@ -5,6 +5,7 @@ import com.arif.backenddemo.domain.User;
 import com.arif.backenddemo.model.ApiResponse;
 import com.arif.backenddemo.model.AuthenticationRequest;
 import com.arif.backenddemo.model.AuthenticationResponse;
+import com.arif.backenddemo.model.RegisterRequest;
 import com.arif.backenddemo.repository.UserRepository;
 import com.arif.backenddemo.security.TokenUtils;
 import com.arif.backenddemo.service.UserService;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,8 +70,9 @@ public class AuthenticationController{
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity registerUser(@RequestBody User user) throws AuthenticationException {
+    public ResponseEntity registerUser(@RequestBody @Validated RegisterRequest registerRequest) throws AuthenticationException {
 
+        User user = new User(registerRequest);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         User newUser = new User(user.getName(), user.getUsername(), hashedPassword, "USER");

@@ -42,6 +42,7 @@ public class ToDoItemController {
         if(toDoItem == null){
             return new ResponseEntity("To-Do Item Add fail.", HttpStatus.BAD_REQUEST);
         }
+        toDoItem.getToDoList().getUser().setPassword("");
 
         return new ResponseEntity(toDoItem, HttpStatus.OK);
     }
@@ -53,7 +54,7 @@ public class ToDoItemController {
             return new ResponseEntity("No To-Do List found", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(toDoItemService.getAllToDoItemsByToList(toDoList.getId()), HttpStatus.OK);
+        return new ResponseEntity(toDoItemService.getAllToDoItemsByToDoList(toDoList.getId()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)

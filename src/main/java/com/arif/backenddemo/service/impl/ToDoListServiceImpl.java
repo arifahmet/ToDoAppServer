@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,7 +34,17 @@ public class ToDoListServiceImpl implements ToDoListService {
 
     @Override
     public List<ToDoList> getAllByUser(User user) {
-        return toDoListRepository.findByUser(user);
+        List<ToDoList> response = new ArrayList<>();
+        List<ToDoList> list = new ArrayList<>();
+
+        response = toDoListRepository.findByUser(user);
+
+        for (ToDoList toDoList: response
+             ) {
+            toDoList.setUser(null);
+            list.add(toDoList);
+        }
+        return list;
     }
 
     @Override
@@ -51,7 +62,7 @@ public class ToDoListServiceImpl implements ToDoListService {
         if(!toDoList.getUser().getUsername().equals(username)){
             return new ApiResponse("You don't have permission", false);
         }
-        List<ToDoItemResponse> toDoItemList = toDoItemService.getAllToDoItemsByToList(toDoList.getId());
+        List<ToDoItemResponse> toDoItemList = toDoItemService.getAllToDoItemsByToDoList(toDoList.getId());
         for (ToDoItemResponse toDoItem:toDoItemList
              ) {
          toDoItemService.deleteTodoItem(toDoItem.getId());

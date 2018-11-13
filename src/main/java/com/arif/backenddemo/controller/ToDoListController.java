@@ -2,6 +2,7 @@ package com.arif.backenddemo.controller;
 
 import com.arif.backenddemo.domain.ToDoList;
 import com.arif.backenddemo.model.ApiResponse;
+import com.arif.backenddemo.model.CreateToDoListRequest;
 import com.arif.backenddemo.service.ToDoListService;
 import com.arif.backenddemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,12 @@ public class ToDoListController {
     private UserService userService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<ToDoList> createToDoList(@RequestBody @Validated ToDoList toDoList, Principal principal){
+    public ResponseEntity<ToDoList> createToDoList(@RequestBody @Validated CreateToDoListRequest createToDoListRequest, Principal principal){
+        ToDoList toDoList = new ToDoList();
+        toDoList.setName(createToDoListRequest.getName());
         toDoList.setUser(userService.getUserByUsername(principal.getName()));
         toDoList = toDoListService.create(toDoList);
-
+        toDoList.getUser().setPassword("");
         return ResponseEntity.ok(toDoList);
     }
 

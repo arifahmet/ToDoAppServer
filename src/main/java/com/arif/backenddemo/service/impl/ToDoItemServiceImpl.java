@@ -27,7 +27,7 @@ public class ToDoItemServiceImpl implements ToDoItemService{
     private DependencyService dependencyService;
 
     @Override
-    public List<ToDoItemResponse> getAllToDoItemsByToList(Long toDoListId) {
+    public List<ToDoItemResponse> getAllToDoItemsByToDoList(Long toDoListId) {
         List<ToDoItemResponse> responseList = new ArrayList<>();
         List<ToDoItemResponse> dependencies;
         ToDoItemResponse responseItem;

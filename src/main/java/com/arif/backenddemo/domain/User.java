@@ -1,6 +1,7 @@
 package com.arif.backenddemo.domain;
 
 
+import com.arif.backenddemo.model.RegisterRequest;
 import lombok.Data;
 import javax.persistence.*;
 
@@ -24,4 +25,12 @@ public class User {
         this.setPassword(password);
         this.setAuthorities(authorities);
     }
+
+    public User(RegisterRequest registerRequest){
+        this.setName(registerRequest.getName());
+        this.setUsername(registerRequest.getUsername());
+        this.setPassword(registerRequest.getPassword());
+        this.setAuthorities("USER");
+    }
+
 }
