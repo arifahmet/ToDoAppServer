@@ -19,8 +19,6 @@ import java.util.List;
 @RequestMapping("/todolist")
 public class ToDoListController {
 
-    @Value("${backenddemo.token.header}")
-    private String tokenHeader;
 
     @Autowired
     private ToDoListService toDoListService;
@@ -37,7 +35,7 @@ public class ToDoListController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<List<ToDoList>> createToDoList(Principal principal){
+    public ResponseEntity<List<ToDoList>> getToDoList(Principal principal){
 
         List<ToDoList> toDoListList = toDoListService.getAllByUser(userService.getUserByUsername(principal.getName()));
 
