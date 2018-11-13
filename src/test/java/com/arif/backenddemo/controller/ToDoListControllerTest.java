@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,9 +25,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,9 +39,6 @@ import static org.mockito.Matchers.isA;
 public class ToDoListControllerTest {
 
 
-    @Value("${backenddemo.token.header}")
-    private String tokenHeader;
-
     @Autowired
     private MockMvc mvc;
 
@@ -49,10 +46,10 @@ public class ToDoListControllerTest {
     private ToDoListService toDoListService;
 
     @MockBean
-    private TokenUtils tokenUtils;
+    private EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
 
     @MockBean
-    private EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
+    private TokenUtils tokenUtils;
 
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
@@ -62,7 +59,6 @@ public class ToDoListControllerTest {
 
     @MockBean
     private UserService userService;
-
 
 
 

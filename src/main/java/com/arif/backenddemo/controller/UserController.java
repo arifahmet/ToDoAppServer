@@ -21,7 +21,7 @@ public class UserController{
     private UserService userService;
 
     @RequestMapping(value = "/checkusernameavailability", method = RequestMethod.GET)
-    public ResponseEntity checkUsernameAvailability(@RequestParam String username){
+    public ResponseEntity checkUsernameAvailability(@RequestParam("username") String username){
         User user = userService.getUserByUsername(username);
 
         if(user == null){

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/auth")
@@ -46,7 +47,7 @@ public class AuthenticationController{
   private UserDetailsServiceImpl userDetailsService;
 
   @Autowired
-  private UserRepository userRepository;
+  private UserService userService;
 
   @RequestMapping(value = "/login",method = RequestMethod.POST)
   public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
@@ -77,8 +78,9 @@ public class AuthenticationController{
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         User newUser = new User(user.getName(), user.getUsername(), hashedPassword, "USER");
 
-        user = userRepository.save(newUser);
+        user = userService.createUser(newUser);
         user.setPassword("");
+
         return new ResponseEntity(user, HttpStatus.OK);
     }
 
