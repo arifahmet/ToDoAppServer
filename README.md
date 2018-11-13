@@ -34,6 +34,6 @@ After that run below command to start docker containers.
 docker-compose up
 ```
 
-That's all. You can now use endpoint on http://localhost:5000 with your favourite browser!
+That's all. You can now use endpoint on http://localhost:5000 with To-Do App Client Project!
 
 Note: If you are using docker on windows. You should write your docker-machine's ip instead of localhost. Because exposing ports on windows hosts is directed to virtual machine which is between windows hosts and docker daemon.
