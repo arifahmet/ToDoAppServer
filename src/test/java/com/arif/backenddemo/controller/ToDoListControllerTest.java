@@ -2,34 +2,22 @@ package com.arif.backenddemo.controller;
 
 import com.arif.backenddemo.domain.ToDoList;
 import com.arif.backenddemo.domain.User;
-import com.arif.backenddemo.factory.UserFactory;
-import com.arif.backenddemo.model.SecurityUser;
+import com.arif.backenddemo.model.ApiResponse;
 import com.arif.backenddemo.security.EntryPointUnauthorizedHandler;
 import com.arif.backenddemo.security.TokenUtils;
 import com.arif.backenddemo.service.SecurityService;
 import com.arif.backenddemo.service.ToDoListService;
 import com.arif.backenddemo.service.UserService;
 import com.arif.backenddemo.service.impl.UserDetailsServiceImpl;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -38,7 +26,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -77,7 +64,7 @@ public class ToDoListControllerTest {
     private UserService userService;
 
 
-   
+
 
     @Test
     @WithMockUser(username = "user")
@@ -138,4 +125,32 @@ public class ToDoListControllerTest {
         verifyNoMoreInteractions(toDoListService);
     }
 
+    @Test
+    @WithMockUser(username = "user")
+    public void deleteToDoList_ShouldReturnStatus400_WhenServiceResponseStatusFalse()throws Exception{
+        ApiResponse testResponse = new ApiResponse("Failed", false);
+
+        given(toDoListService.deleteTodoList(isA(Long.class), isA(String.class))).willReturn(testResponse);
+
+        mvc.perform(get("/todolist/delete").param("id", "1"))
+                .andExpect(status().isBadRequest());
+
+        verify(toDoListService, times(1)).deleteTodoList(isA(Long.class), isA(String.class));
+        verifyNoMoreInteractions(toDoListService);
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void deleteToDoList_ShouldReturnStatus200_WhenServiceResponseStatusTrue() throws Exception{
+        ApiResponse testResponse = new ApiResponse("Succeeded", true);
+
+        given(toDoListService.deleteTodoList(isA(Long.class), isA(String.class))).willReturn(testResponse);
+
+        mvc.perform(get("/todolist/delete").param("id", "1"))
+                .andExpect(status().isOk());
+
+        verify(toDoListService, times(1)).deleteTodoList(isA(Long.class), isA(String.class));
+        verifyNoMoreInteractions(toDoListService);
+
+    }
 }
